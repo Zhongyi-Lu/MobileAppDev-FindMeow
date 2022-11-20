@@ -12,8 +12,6 @@ import HomePage from "./components/screens/HomePage";
 import StarListScreen from "./components/screens/StarListScreen";
 import LoginOrSignUpPage from "./components/screens/LoginOrSignUpPage";
 
-
-
 SplashScreen.preventAutoHideAsync();
 LogBox.ignoreLogs(["Remote debugger"]);
 LogBox.ignoreAllLogs();
