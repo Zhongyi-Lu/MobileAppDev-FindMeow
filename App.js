@@ -12,6 +12,8 @@ import HomePage from "./components/screens/HomePage";
 import StarListScreen from "./components/screens/StarListScreen";
 import LoginOrSignUpPage from "./components/screens/LoginOrSignUpPage";
 
+
+
 SplashScreen.preventAutoHideAsync();
 LogBox.ignoreLogs(["Remote debugger"]);
 LogBox.ignoreAllLogs();
@@ -38,7 +40,6 @@ export default function App() {
     >
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="LoginOrSignUp" component={LoginOrSignUpPage} />
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="CatInformation" component={CatInformation} />
           <Stack.Screen
