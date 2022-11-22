@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import { CatCard } from "../cards/CatCard";
 import { FilterButton } from "../pressable/FilterButton";
 import { FilterButtons } from "../pressable/FilterButtons";
@@ -34,82 +34,84 @@ export default function CatteryProfileScreen() {
   const { height, width } = useWindowDimensions();
   return (
     <View style={{ backgroundColor: "rgb(250,250,250)" }}>
-      <View>
-        <View style={{ height: width / 2, backgroundColor: "gray" }}></View>
-      </View>
-
-      <View style={{ position: "absolute", top: 48, left: 12 }}>
-        <View style={{ backgroundColor: "gray", opacity: 0.5 }}>
-          <Pressable onPress={rootStackNavigateBack}>
-            <Feather name="arrow-left-circle" size={24} color="black" />
-          </Pressable>
+      <ScrollView>
+        <View>
+          <View style={{ height: width / 2, backgroundColor: "gray" }}></View>
         </View>
-      </View>
 
-      <View style={{ margin: 32, top: -80 }}>
-        {/* buggy codes start */}
-        <View
-          style={{
-            alignItems: "center",
-            backgroundColor: "white",
-            padding: 16,
-            borderRadius: 12,
-          }}
-        >
-          <Text style={{ color: "orange", fontWeight: "700", fontSize: 24 }}>
-            {cattery.name}
-          </Text>
-          <View style={{ padding: 4 }}>
-            <LocationText>{cattery.location}</LocationText>
+        <View style={{ position: "absolute", top: 48, left: 12 }}>
+          <View style={{ backgroundColor: "gray", opacity: 0.5 }}>
+            <Pressable onPress={rootStackNavigateBack}>
+              <Feather name="arrow-left-circle" size={24} color="black" />
+            </Pressable>
           </View>
         </View>
 
-        <View style={{ height: 24 }} />
-
-        <View
-          style={{ padding: 24, backgroundColor: "white", borderRadius: 12 }}
-        >
-          <Text style={{ color: "orange", fontWeight: "500" }}>About</Text>
-          <Text></Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontWeight: "500", color: Colors.black }}>
-              Phone:{" "}
+        <View style={{ margin: 32, top: -80 }}>
+          {/* buggy codes start */}
+          <View
+            style={{
+              alignItems: "center",
+              backgroundColor: "white",
+              padding: 16,
+              borderRadius: 12,
+            }}
+          >
+            <Text style={{ color: "orange", fontWeight: "700", fontSize: 24 }}>
+              {cattery.name}
             </Text>
-            <Text>111</Text>
+            <View style={{ padding: 4 }}>
+              <LocationText>{cattery.location}</LocationText>
+            </View>
           </View>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontWeight: "500", color: Colors.black }}>
-              Website:{" "}
-            </Text>
-            <Text>http://xxx</Text>
+
+          <View style={{ height: 24 }} />
+
+          <View
+            style={{ padding: 24, backgroundColor: "white", borderRadius: 12 }}
+          >
+            <Text style={{ color: "orange", fontWeight: "500" }}>About</Text>
+            <Text></Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontWeight: "500", color: Colors.black }}>
+                Phone:{" "}
+              </Text>
+              <Text>111</Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontWeight: "500", color: Colors.black }}>
+                Website:{" "}
+              </Text>
+              <Text>http://xxx</Text>
+            </View>
+          </View>
+
+          <View style={{ height: 24 }} />
+
+          {/* buggy codes end */}
+
+          <View
+            style={{ padding: 16, backgroundColor: "white", borderRadius: 12 }}
+          >
+            <View style={{ margin: 8 }}>
+              <Text style={{ color: "orange", fontWeight: "500" }}>
+                Available Kittens
+              </Text>
+            </View>
+            <FlatList
+              data={cattery.cats}
+              renderItem={({ item, index }) => <CatCard cat={item} />}
+              numColumns={2}
+              ListFooterComponent={<View style={{ height: 60 }} />}
+            />
           </View>
         </View>
 
-        <View style={{ height: 24 }} />
-
-        {/* buggy codes end */}
-
-        <View
-          style={{ padding: 16, backgroundColor: "white", borderRadius: 12 }}
-        >
-          <View style={{ margin: 8 }}>
-            <Text style={{ color: "orange", fontWeight: "500" }}>
-              Available Kittens
-            </Text>
-          </View>
-          <FlatList
-            data={cattery.cats}
-            renderItem={({ item, index }) => <CatCard cat={item} />}
-            numColumns={2}
-            ListFooterComponent={<View style={{ height: 60 }} />}
-          />
+        {/* floating components */}
+        <View style={{ position: "absolute", top: 40, right: 32 }}>
+          <HeartButton />
         </View>
-      </View>
-
-      {/* floating components */}
-      <View style={{ position: "absolute", top: 40, right: 32 }}>
-        <HeartButton />
-      </View>
+      </ScrollView>
     </View>
   );
 }
