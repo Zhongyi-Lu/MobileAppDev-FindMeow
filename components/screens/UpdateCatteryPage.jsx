@@ -7,6 +7,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { REACT_APP_GOOGLE_MAP_APP_KEY } from '@env';
 import { updateCattery } from "../../firebaseUtils/user";
 import { writeImageToDB } from "../../firebaseUtils/firestore";
+import {Dimensions, StatusBar} from 'react-native'; 
 
 export default function UpdateCatteryPage({ route, navigation }) {
     const user = route.params.user;
@@ -31,10 +32,14 @@ export default function UpdateCatteryPage({ route, navigation }) {
                 .then(() => navigation.goBack());
         }
     };
+
+    const screenHeight = Dimensions.get('screen').height;
+    const windowHeight = Dimensions.get('window').height;
+    const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
     return (
         <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={{ flex: 1}}
+                style={{ flex: 1, paddingBottom: navbarHeight}}
                 >
                     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
                         <View style={{ margin: 12 }}>
