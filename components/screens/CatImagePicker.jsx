@@ -32,7 +32,7 @@ export default function CatImagePicker({ image, setImage }) {
       return;
     }
     
-    let result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
