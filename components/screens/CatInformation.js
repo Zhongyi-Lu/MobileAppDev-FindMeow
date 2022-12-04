@@ -5,12 +5,11 @@ import { Chip } from "@rneui/themed";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  Pressable,
+  Alert, PermissionsAndroid, Platform, Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 import CachedImage from "react-native-expo-cached-image";
 import { db } from "../../firebaseUtils/firebase-setup";
@@ -19,12 +18,13 @@ import {
   calculateDistance,
   getUserLocation,
   userLikeACat,
-  userUnLikeACat,
+  userUnLikeACat
 } from "../../firebaseUtils/user";
 import { HeartButton_InfoPage } from "../pressable/HeartButton_InfoPage";
 import { MessageButton } from "../pressable/MessageButton";
 import { PhoneButton } from "../pressable/PhoneButton";
 import { Colors } from "../styles/Colors";
+import { ImageSaver } from "../../utils/saveImage";
 
 export default function CatInformation({ route, navigation }) {
   const catId = route.params.catId;
@@ -64,7 +64,7 @@ export default function CatInformation({ route, navigation }) {
         .then((resp) => {
           setDistance(
             calculateDistance(location, resp.data.result.geometry.location) +
-              "mi"
+            "mi"
           );
         });
     }
@@ -126,23 +126,63 @@ export default function CatInformation({ route, navigation }) {
     navigation.push("PostNewCatScreen", { cat });
   };
 
-  {/* Calculate the post time */}
+  {/* Calculate the post time */ }
   const getDateFormatted = (timestamp) => {
     var date = new Date(timestamp);
     var dateFormat = date.toDateString();
     return dateFormat;
   }
 
+  const getPermissionAndroid = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Image Download Permission',
+          message: 'Your permission is required to save images to your device',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      }
+      Alert.alert(
+        'Save remote Image',
+        'Grant Me Permission to save Image',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
+      );
+    } catch (err) {
+      Alert.alert(
+        'Save remote Image',
+        'Failed to save Image: ' + err.message,
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
+      );
+    }
+  };
+
+
+  async function handleDownload() {
+    ImageSaver.downloadFilesAsync(cat.Picture);
+  }
+
+  async function onPressImage() {
+    await handleDownload();
+  }
 
   return (
     <ScrollView>
       <View>
         {/* Background Image */}
-        <CachedImage
-          source={{ uri: cat.Picture }}
-          resizeMode="cover"
-          style={{ height: 450, width: 500 }}
-        ></CachedImage>
+        <Pressable onLongPress={onPressImage}>
+          <CachedImage
+            source={{ uri: cat.Picture }}
+            resizeMode="cover"
+            style={{ height: 450, width: 500 }}
+          />
+        </Pressable>
 
         {/* Heart button */}
         <View style={styles.floatingView}>
