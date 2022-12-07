@@ -225,7 +225,6 @@ function MainScreen({ route, navigation }) {
             ...catDoc.data(),
             id: catDoc.id,
             name: catDoc.data().Breed,
-            sex: catDoc.data().Gender,
             price: catDoc.data().Price,
             month: age,
             photo: catDoc.data().Picture,

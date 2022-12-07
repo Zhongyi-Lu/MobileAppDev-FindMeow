@@ -283,7 +283,6 @@ function MainScreen({ route, navigation }) {
           ...cat,
           id: cat.id,
           name: cat.Breed,
-          sex: cat.Gender,
           price: cat.Price,
           month: age,
           photo: cat.Picture,

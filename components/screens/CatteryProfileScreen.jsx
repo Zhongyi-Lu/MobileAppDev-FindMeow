@@ -169,7 +169,6 @@ function MainScreen({ route, navigation }) {
       id: cat.id,
       name: cat.Name,
       month: age,
-      sex: cat.Gender,
       price: cat.Price,
       cattery: cat.Cattery,
       photo: cat.Picture,
