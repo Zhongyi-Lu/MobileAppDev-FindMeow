@@ -98,7 +98,7 @@ export function CatCard({
 
           {/* cat details */}
           <Text style={styles.catDetailStyle}>
-            {cat.sex}, {catMonthText}
+            {cat.Gender}, {catMonthText}
           </Text>
 
           {/* cat breed */}

@@ -86,7 +86,7 @@ export function CatCard_map({ cat, navigation, showBreed }) {
 
                 {/* cat details */}
                 <Text style={styles.catDetailStyle}>
-                  {cat.sex},{" "}
+                  {cat.Gender},{" "}
                   {cat.month === 1
                     ? cat.month + " month"
                     : cat.month + " months"}

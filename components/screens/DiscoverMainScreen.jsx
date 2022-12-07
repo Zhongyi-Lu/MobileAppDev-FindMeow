@@ -150,6 +150,7 @@ function MainScreen({ route, navigation }) {
       const newCatteries = [];
       querySnapshot.forEach((doc) => {
         newCatteries.push({
+          id: doc.id,
           email: doc.id,
           ...doc.data(),
         });
@@ -221,6 +222,7 @@ function MainScreen({ route, navigation }) {
           }
 
           return {
+            ...catDoc.data(),
             id: catDoc.id,
             name: catDoc.data().Breed,
             sex: catDoc.data().Gender,

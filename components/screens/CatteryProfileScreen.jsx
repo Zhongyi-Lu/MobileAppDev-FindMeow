@@ -165,6 +165,7 @@ function MainScreen({ route, navigation }) {
       birthday.getMonth() +
       12 * (now.getFullYear() - birthday.getFullYear());
     return {
+      ...cat,
       id: cat.id,
       name: cat.Name,
       month: age,

@@ -280,6 +280,7 @@ function MainScreen({ route, navigation }) {
             ? calculateDistance(location, cattery.geoLocation)
             : null;
         return {
+          ...cat,
           id: cat.id,
           name: cat.Breed,
           sex: cat.Gender,
@@ -289,7 +290,6 @@ function MainScreen({ route, navigation }) {
           cattery: cat.Cattery,
           distance,
           uploadTime: cat.UploadTime,
-          ...cat,
         };
       })
       .filter((entry) => userLikedCatEmails.includes(entry.id))
