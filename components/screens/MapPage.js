@@ -82,6 +82,21 @@ export default function MapPage({
 
   const flatListRef = useRef();
 
+  const [markerRefList, setMarkerRefList] = useState([]);
+
+  function onRegionChangeComplete() {
+    // console.debug(markerRefList[0].current);
+
+    for (let i = 0; i < markerRefList.length; i++) {
+      // console.debug(markerRef.current);
+      const markerRef = markerRefList[i];
+      if (markerRef && markerRef.current && markerRef.current.showCallout) {
+        // console.debug(markerRef.current.showCallout);
+        markerRef.current.showCallout();
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <MapView
@@ -94,6 +109,8 @@ export default function MapPage({
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        // TODO
+        onRegionChangeComplete={onRegionChangeComplete}
       >
         <CatteryMarker
           catsData={catsData}
@@ -101,6 +118,7 @@ export default function MapPage({
           showCatList={showCatList}
           setShowCatList={setShowCatList}
           flatListRef={flatListRef}
+          setMarkerRefList={setMarkerRefList}
         />
       </MapView>
 
@@ -127,19 +145,19 @@ export default function MapPage({
         </View>
 
         <View
-            style={{
-              marginLeft: 30,
-              marginTop: 65,
-            }}
-          >
-          <Pressable 
+          style={{
+            marginLeft: 30,
+            marginTop: 65,
+          }}
+        >
+          <Pressable
             onPress={navigation.goBack}
-            hitSlop={{left: 20, right: 60, bottom: 50, top: 80}}>
-              <Ionicons
-                name="chevron-back"
-                size={30}
-                color="black"
-              />
+            hitSlop={{ left: 20, right: 60, bottom: 50, top: 80 }}>
+            <Ionicons
+              name="chevron-back"
+              size={30}
+              color="black"
+            />
           </Pressable>
         </View>
       </View>

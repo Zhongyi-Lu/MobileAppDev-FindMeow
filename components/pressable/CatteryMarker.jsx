@@ -5,7 +5,7 @@ import { Callout, Marker } from "react-native-maps";
 import {
   getCattery,
   userLikeACat,
-  userUnLikeACat
+  userUnLikeACat,
 } from "../../firebaseUtils/user";
 import { CatCard_map } from "../cards/CatCard_map";
 import { Colors } from "../styles/Colors";
@@ -16,6 +16,7 @@ export function CatteryMarker({
   showCatList,
   setShowCatList,
   flatListRef,
+  setMarkerRefList,
 }) {
   const { height, width } = useWindowDimensions();
   const [cattery, setCattery] = useState(null);
@@ -41,7 +42,7 @@ export function CatteryMarker({
     if (catNumber === 1) {
       return "1 cat at this position.";
     } else {
-      return catNumber + " cats at this position."
+      return catNumber + " cats at this position.";
     }
   };
 
@@ -60,29 +61,16 @@ export function CatteryMarker({
     }
   };
 
+  const markerRefList = [];
+
+  useEffect(() => {
+    setMarkerRefList(markerRefList);
+    console.debug(markerRefList.length);
+  }, []);
+
   return (
     <View>
-      {catsData.map((cat, index) => {
-        return (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: cat.geoLocation.lat,
-              longitude: cat.geoLocation.lng,
-            }}
-            onPress={markerOnPress}
-            indentifier={`${index}`}
-          >
-            <Foundation name="marker" size={40} color={Colors.orangeText} />
-
-            <Callout>
-              <View style={{ backgroundColor: "white", width: 90 }}>
-                <Text>{HelperText(cat)}</Text>
-              </View>
-            </Callout>
-          </Marker>
-        );
-      })}
+      {buildMarkers()}
 
       {showCatList === false ? (
         <View style={{ width: width + 20, alignItems: "center" }}>
@@ -111,4 +99,33 @@ export function CatteryMarker({
       <View style={{}}></View>
     </View>
   );
+
+  function buildMarkers() {
+    const markersComponent = catsData.map((cat, index) => {
+      const markerRef = React.useRef(null);
+      markerRefList.push(markerRef);
+      return (
+        <Marker
+          ref={markerRef}
+          key={index}
+          coordinate={{
+            latitude: cat.geoLocation.lat,
+            longitude: cat.geoLocation.lng,
+          }}
+          onPress={markerOnPress}
+          indentifier={`${index}`}
+        >
+          <Foundation name="marker" size={40} color={Colors.orangeText} />
+
+          <Callout>
+            <View style={{ backgroundColor: "white", width: 90 }}>
+              <Text>{HelperText(cat)}</Text>
+            </View>
+          </Callout>
+        </Marker>
+      );
+    });
+
+    return markersComponent;
+  }
 }
